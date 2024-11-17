@@ -32,3 +32,4 @@ jobs:
       - name: Run Docker Container
         run: docker run -d -p 3000:80 --studyAwsReactContainer mayankbharkhadaoptional/study-aws-react-app
 
+
