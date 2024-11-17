@@ -19,8 +19,16 @@ jobs:
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build Docker Image
-        run: docker build -t studyawsaeactapp .
+        run: docker build -t studyAwsReactApp .
 
       - name: Publish Image To Docker Hub
-        run: docker push studyawsaeactapp:latest
+        run: docker push studyAwsReactApp:latest
 
+  deploy: 
+    needs: build
+    runs-on: aws-ec2
+    steps: 
+      - name: Pull Image From Docker Hub
+        run: docker pull mayankbharkhadaoptional/study-aws-react-app:latest
+      - name: Run Docker Container
+        run: docker run -d -p 3000:80 --name studyAwsReactContainer mayankbharkhadaoptional/study-aws-react-app
