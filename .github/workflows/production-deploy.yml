@@ -26,7 +26,7 @@ jobs:
 
   deploy: 
     needs: build
-    runs-on: aws-ec2
+    runs-on: self-hosted
     steps: 
       - name: Pull Image From Docker Hub
         run: docker pull mayankbharkhadaoptional/study-aws-react-app:latest
