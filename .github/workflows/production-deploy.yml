@@ -26,8 +26,8 @@ jobs:
         with: 
           context: .
           push: true
-          tags: mayankbharkhadaoptional/study-aws-react-app
+          tags: study-aws-react-app
 
       - name: Publish Image To Docker Hub
-        run: docker push mayankbharkhadaoptional/study-aws-react-app
+        run: docker push study-aws-react-app
 
