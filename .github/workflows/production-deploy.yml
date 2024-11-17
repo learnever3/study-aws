@@ -8,28 +8,27 @@ on:
 jobs: 
 
   build:
-
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Source
         uses: actions/checkout@v3
       - name: Login To Docker Hub
-        uses: docker login -u ${{ secrets.DOCKER_USERNAME }} - p ${{ secrets.DOCKER_PASSWORD }}
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
       - name: Build Docker Image
         run: docker build -t mayankbharkhadaoptional/study-aws-react-app .
-      - name: Publish Image To Socker Hub
-        run: docker push mayankbharkhadaoptional/study-aws-react-app@latest
+      - name: Publish Image To Docker Hub
+        run: docker push mayankbharkhadaoptional/study-aws-react-app:latest
 
   deploy: 
-    
     needs: build
     runs-on: aws-ec2
     steps: 
       - name: Pull Image From Docker Hub
-        run: docker pull mayankbharkhadaoptional/study-aws-react-app@latest
+        run: docker pull mayankbharkhadaoptional/study-aws-react-app:latest
       - name: Delete Old Container
-        run: docker rm -f studyAwsReactContainer
+        run: |
+          if [ $(docker ps -q -f name=studyAwsReactContainer) ]; then
+            docker rm -f studyAwsReactContainer
+          fi
       - name: Run Docker Container
-        run: docker run -d -p 3000:80 --studyAwsReactContainer mayankbharkhadaoptional/study-aws-react-app
-
-
+        run: docker run -d -p 3000:80 --name studyAwsReactContainer mayankbharkhadaoptional/study-aws-react-app
