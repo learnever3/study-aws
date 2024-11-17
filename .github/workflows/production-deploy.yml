@@ -6,26 +6,28 @@ on:
       - main
 
 jobs: 
-
   build:
     runs-on: ubuntu-latest
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE20: true
     steps:
+
       - name: Checkout Source
         uses: actions/checkout@v3
+
       - name: Login To Docker Hub
-        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+        uses: docker/login-action@v1
+        with: 
+          usename:  ${{ secrets.DOCKER_USERNAME }} 
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
       - name: Build Docker Image
-        run: docker build -t mayankbharkhadaoptional/study-aws-react-app .
+        uses: docker/build-push-action@v2
+        with: 
+          context: .
+          push: true
+          tags: mayankbharkhadaoptional/study-aws-react-app:latest
+
       - name: Publish Image To Docker Hub
         run: docker push mayankbharkhadaoptional/study-aws-react-app:latest
 
-  deploy: 
-    needs: build
-    runs-on: aws-ec2
-    steps: 
-      - name: Pull Image From Docker Hub
-        run: docker pull mayankbharkhadaoptional/study-aws-react-app:latest
-      - name: Run Docker Container
-        run: docker run -d -p 3000:80 --name studyAwsReactContainer mayankbharkhadaoptional/study-aws-react-app
