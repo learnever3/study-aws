@@ -30,7 +30,7 @@ jobs:
     steps: 
       - name: Pull Image From Docker Hub
         run: docker pull mayankbharkhadaoptional/study-aws-react-app:latest
-           - name: Delete Old Container
+      - name: Delete Old Container
         run: |
           if [ $(docker ps -q -f name=studyAwsReactContainer) ]; then
             docker rm -f studyAwsReactContainer
