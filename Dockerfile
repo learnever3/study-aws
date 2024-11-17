@@ -11,5 +11,9 @@ FROM nginx:1.23-alpine
 WORKDIR /usr/share/nginx/html
 RUN rm -rf ./*
 COPY --from=build /app/dist ./
+
+# Copy the .env file into the container
+COPY .env /usr/share/nginx/html/.env
+
 EXPOSE 80
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
