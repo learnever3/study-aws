@@ -16,9 +16,9 @@ jobs:
       - name: Login To Docker Hub
         uses: docker login -u ${{ secrets.DOCKER_USERNAME }} - p ${{ secrets.DOCKER_PASSWORD }}
       - name: Build Docker Image
-        run: docker build -t study/react-aws-app .
+        run: docker build -t mayankbharkhadaoptional/study-aws-react-app .
       - name: Publish Image To Socker Hub
-        run: docker push study/react-aws-app:latest
+        run: docker push mayankbharkhadaoptional/study-aws-react-app:latest
 
   deploy: 
     
@@ -26,9 +26,9 @@ jobs:
     runs-on: aws-ec2
     steps: 
       - name: Pull Image From Docker Hub
-        run: docker pull study/react-aws-app:latest
+        run: docker pull mayankbharkhadaoptional/study-aws-react-app:latest
       - name: Delete Old Container
         run: docker rm -f studyAwsReactContainer
       - name: Run Docker Container
-        run: docker run -d -p 3000:80 --studyAwsReactContainer study/react-aws-app
+        run: docker run -d -p 3000:80 --studyAwsReactContainer mayankbharkhadaoptional/study-aws-react-app
 
